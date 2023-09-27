@@ -1,0 +1,9 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: https://faas.suitwe.com
+functions:
+  go-echo:
+    lang: go-plugin
+    handler: ./go-echo
+    image: ghcr.io/Cheivin/wechat-assistant-plugin-echo:latest
