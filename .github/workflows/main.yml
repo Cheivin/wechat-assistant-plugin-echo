@@ -42,4 +42,4 @@ jobs:
       - name: Deploy
         run: >
           TAG="${{ github.sha }}"
-          faas-cli deploy -f stack.yml --gateway ${{secrets.OPENFAAS_URL}}
+          faas-cli deploy --update -f stack.yml --gateway ${{secrets.OPENFAAS_URL}}
