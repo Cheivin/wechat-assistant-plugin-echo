@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: 1
+      - name: Get commit SHA
+        run: echo ${{ github.sha }}
       - name: Get faas-cli
         run: curl -sLSf https://cli.openfaas.com | sudo sh
       - name: Pull custom templates
@@ -26,19 +28,18 @@ jobs:
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Build functions
+      - name: Publish functions
         run: >
-          faas-cli build
+          TAG="latest"
+          faas-cli publish
           -f stack.yml
           --build-arg GO111MODULE=on
-      - name: Push functions
-        run: >
-          faas-cli push
-          -f stack.yml
-      - name: Login
+          --extra-tag ${{ github.sha }}
+      - name: Login OpenFaaS
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
           faas-cli login --gateway ${{secrets.OPENFAAS_URL}} --password-stdin
       - name: Deploy
         run: >
+          TAG="${{ github.sha }}"
           faas-cli deploy -f stack.yml --gateway ${{secrets.OPENFAAS_URL}}
