@@ -29,14 +29,16 @@ jobs:
       - name: Build functions
         run: >
           faas-cli build
+          -f stack.yml
           --build-arg GO111MODULE=on
       - name: Push functions
         run: >
           faas-cli push
+          -f stack.yml
       - name: Login
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
           faas-cli login --gateway ${{secrets.OPENFAAS_URL}} --password-stdin
       - name: Deploy
         run: >
-          faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}}
+          faas-cli deploy -f stack.yml --gateway ${{secrets.OPENFAAS_URL}}
