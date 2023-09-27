@@ -40,14 +40,19 @@ jobs:
           docker login ghcr.io --username 
           ${{ steps.get_repo_owner.outputs.repo_owner }} 
           --password-stdin
-      - name: Publish functions
+      - name: Build functions
+        run: >
+          OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
+          TAG="latest"
+          faas-cli build
+          --extra-tag ${{ github.sha }}
+          --build-arg GO111MODULE=on
+      - name: Push functions
         run: >
           OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}" 
           TAG="latest"
-          faas-cli publish
+          faas-cli push
           --extra-tag ${{ github.sha }}
-          --build-arg GO111MODULE=on
-          --platforms linux/amd64
       - name: Login
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
