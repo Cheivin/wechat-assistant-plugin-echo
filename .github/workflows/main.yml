@@ -33,6 +33,7 @@ jobs:
           -f stack.yml
           --build-arg GO111MODULE=on
           --tag=sha
+          --platforms linux/arm/v7,linux/amd64
       - name: Login OpenFaaS
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
