@@ -45,14 +45,12 @@ jobs:
           OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
           TAG="latest"
           faas-cli build
-          --extra-tag ${{ github.sha }}
           --build-arg GO111MODULE=on
       - name: Push functions
         run: >
           OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}" 
           TAG="latest"
           faas-cli push
-          --extra-tag ${{ github.sha }}
       - name: Login
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
@@ -60,5 +58,4 @@ jobs:
       - name: Deploy
         run: >
           OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
-          TAG="${{ github.sha }}"
           faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}}
