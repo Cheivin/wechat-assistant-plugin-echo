@@ -18,8 +18,6 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: 1
-#      - name: Get commit SHA
-#        run: echo ${{ github.sha }}
       - name: Get faas-cli
         run: curl -sLSf https://cli.openfaas.com | sudo sh
       - name: Pull custom templates
@@ -34,7 +32,6 @@ jobs:
           faas-cli publish
           -f stack.yml
           --build-arg GO111MODULE=on
-#          --extra-tag ${{ github.sha }}
           --tag=sha
       - name: Login OpenFaaS
         run: >
@@ -42,5 +39,4 @@ jobs:
           faas-cli login --tag=sha --gateway ${{secrets.OPENFAAS_URL}} --password-stdin
       - name: Deploy
         run: >
-#          TAG="${{ github.sha }}"
           faas-cli deploy --tag=sha --update -f stack.yml --gateway ${{secrets.OPENFAAS_URL}}
