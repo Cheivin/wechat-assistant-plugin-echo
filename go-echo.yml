@@ -6,4 +6,4 @@ functions:
   go-echo:
     lang: go-plugin
     handler: ./go-echo
-    image: ghcr.io/Cheivin/wechat-assistant-plugin-echo:latest
+    image: docker.suitwe.com/openfaas/go-echo:latest
