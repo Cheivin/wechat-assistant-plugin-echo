@@ -36,7 +36,7 @@ jobs:
       - name: Login OpenFaaS
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
-          faas-cli login --tag=sha --gateway ${{secrets.OPENFAAS_URL}} --password-stdin
+          faas-cli login --gateway ${{secrets.OPENFAAS_URL}} --password-stdin
       - name: Deploy
         run: >
           faas-cli deploy --tag=sha --update -f stack.yml --gateway ${{secrets.OPENFAAS_URL}}
